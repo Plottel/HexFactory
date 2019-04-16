@@ -14,6 +14,7 @@ MonoBehaviour:
   DestructionShrinkEndScale: 0.2
   DestructionShrinkDuration: 0.7
   TurnSpeed: 3
+  InputMethod: 0
   SecondsPerSpawn: 4.5
   MinimumLaserFrequency: 10
   MinClumpSize: 1
