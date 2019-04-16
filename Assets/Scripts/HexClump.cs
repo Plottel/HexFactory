@@ -152,7 +152,7 @@ public class HexClump : MonoBehaviour
             HexCell clumpCell = GameManager.Instance.Grid.WorldPosToCell(clumpPiece.transform.position);
             AttachPieceToCell(clumpPiece, clumpCell);
 
-            DestructionManager.Instance.DestroyConnectingCellsOfType(clumpCell, collisionPiece.Type);
+            DestructionManager.Instance.DestroyConnectingCellsOfType(clumpCell);
         }
         else
         {

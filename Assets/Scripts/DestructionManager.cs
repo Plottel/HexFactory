@@ -27,31 +27,41 @@ public class DestructionManager : Singleton<DestructionManager>
         DestructionShrinkDuration = GameManager.Settings.DestructionShrinkDuration;
     }
 
-    public void DestroyConnectingCellsOfType(HexCell startingCell, HexType destructionType)
+    public void DestroyConnectingCellsOfType(HexCell startingCell)
     {
-        var toCheck = new Stack<HexCell>();
-        var haveChecked = new List<HexCell>();
         var toDestroy = new List<HexCell>();
 
-        toCheck.Push(startingCell);
-        HexCell current;
-
-        while (toCheck.Count > 0)
+        foreach (HexCell startingCellNeighbour in startingCell.neighbours)
         {
-            current = toCheck.Pop();
+            if (startingCellNeighbour.IsEmpty || startingCellNeighbour.piece.Type == HexType.Magnet)
+                continue;
 
-            haveChecked.Add(current);
-            toDestroy.Add(current);
+            var toCheck = new Stack<HexCell>();
+            var haveChecked = new List<HexCell>();
+            HexType destructionType = startingCellNeighbour.piece.Type;
 
-            foreach (HexCell neighbour in current.neighbours)
+            toCheck.Push(startingCell);
+            HexCell current;
+
+            while (toCheck.Count > 0)
             {
-                if (haveChecked.Contains(neighbour) || toCheck.Contains(neighbour))
-                    continue;
+                current = toCheck.Pop();
 
-                if (neighbour.piece != null && neighbour.piece.Type == destructionType && neighbour.piece.Type != HexType.Magnet) // Don't destroy the magnet...
-                    toCheck.Push(neighbour);
+                haveChecked.Add(current);
+
+                if (!toDestroy.Contains(current))
+                    toDestroy.Add(current);
+
+                foreach (HexCell neighbour in current.neighbours)
+                {
+                    if (haveChecked.Contains(neighbour) || toCheck.Contains(neighbour))
+                        continue;
+
+                    if (neighbour.piece != null && neighbour.piece.Type == destructionType && neighbour.piece.Type != HexType.Magnet) // Don't destroy the magnet...
+                        toCheck.Push(neighbour);
+                }
             }
-        }
+        }        
 
         _destructionState = DestructionState.LaserPieces;
         BeginDestruction(toDestroy);
@@ -88,6 +98,8 @@ public class DestructionManager : Singleton<DestructionManager>
 
     private void OnScaleTweenComplete()
     {
+        GameManager.Instance.CurrentScore += _toDestroy.Count;
+
         foreach (HexCell cell in _toDestroy)
         {
             Destroy(cell.piece.gameObject);
