@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum InputMethod
+{
+    TapLeftRight,
+    SwipeRotate
+}
+
 public class HexController : MonoBehaviour
 {
     [HideInInspector] public float TurnSpeed;
 
+    private InputMethod _inputMethod;
     private HexGrid _grid;
     private Transform _gridPivot;
 
@@ -20,6 +27,7 @@ public class HexController : MonoBehaviour
     private void Start()
     {
         TurnSpeed = GameManager.Settings.TurnSpeed;
+        _inputMethod = GameManager.Settings.InputMethod;
     }
 
     private void Update()
@@ -37,6 +45,27 @@ public class HexController : MonoBehaviour
 
         Touch touch = Input.GetTouch(0);
 
+        if (_inputMethod == InputMethod.TapLeftRight)
+            HandleTapLeftRightInput(touch);
+        else if (_inputMethod == InputMethod.SwipeRotate)
+            HandleSwipeRotateInput(touch);
+    }
+
+    private void HandleTapLeftRightInput(Touch touch)
+    {
+        if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
+        {
+            float touchX = touch.position.x;
+
+            if (touchX < Screen.width / 2)
+                _gridPivot.Rotate(0, 0, TurnSpeed);
+            else
+                _gridPivot.Rotate(0, 0, -TurnSpeed);
+        }
+    }
+
+    private void HandleSwipeRotateInput(Touch touch)
+    {       
         if (touch.phase == TouchPhase.Began)
         {
             _lastTouchVector = TouchWorldPos(touch) - (Vector2)_grid.GetCenterCell().transform.position;
@@ -49,11 +78,6 @@ public class HexController : MonoBehaviour
 
             _gridPivot.Rotate(0, 0, deltaAngle);
         }
-
-        // If TouchPhase.Moved:
-        //      - record position and convert it to an angle from the center of the grid
-        //      - calculate difference between this angle and the last recorded angle
-        //      - rotate the grid by the difference
     }
 
     private Vector2 TouchWorldPos(Touch touch)

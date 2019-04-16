@@ -181,8 +181,7 @@ public class HexClump : MonoBehaviour
             if (piece == clumpPiece)
                 continue;
 
-            Vector3 startingOffset = _startingPositions[piece] - collisionStartingPos;
-            Vector3 targetPos = piece.transform.position /*+ startingOffset*/ + snapDelta;
+            Vector3 targetPos = piece.transform.position + snapDelta;
 
             AttachPieceToCell(piece, gameGrid.WorldPosToCell(targetPos));
         }

@@ -11,6 +11,7 @@ public class GameSettings : ScriptableObject
 
     [Header("Player Controls")]
     public float TurnSpeed;
+    public InputMethod InputMethod;
 
     [Header("Spawners")]
     public float SecondsPerSpawn;

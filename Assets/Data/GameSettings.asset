@@ -19,5 +19,5 @@ MonoBehaviour:
   MinClumpSize: 1
   MaxClumpSize: 1
   TimeToReachMagnet: 2.5
-  ClumpShape: 1
+  ClumpShape: 0
   ClumpTweeningType: 14
