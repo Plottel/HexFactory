@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public enum HexType
 {
     Basic1 = 0,
@@ -15,17 +19,6 @@ public enum HexType
 
 public class HexPiece : MonoBehaviour
 {
-    private static Color[] kPieceColors = new Color[]
-    {        
-        Color.yellow,
-        Color.cyan,
-        Color.green,
-        Color.magenta,
-        Color.red,
-        Color.white,
-        Color.black
-    };
-
     [SerializeField][SerializeProperty("Type")] private HexType _type;
     [SerializeField] [SerializeProperty("ColliderSize")] private float _colliderSize;
 
@@ -37,7 +30,17 @@ public class HexPiece : MonoBehaviour
         set
         {
             _type = value;
-            GetComponent<SpriteRenderer>().color = kPieceColors[(int)_type];
+
+#if UNITY_EDITOR
+            // (HACK) Matt: GameManager Singleton is not initialized in the editor >.<
+            string[] guids = AssetDatabase.FindAssets("t:" + typeof(GameSettings).Name);
+            string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+
+            GameSettings gameSettings = AssetDatabase.LoadAssetAtPath<GameSettings>(path);
+            GetComponent<SpriteRenderer>().sprite = gameSettings.PieceSprites[(int)_type];
+#else
+            GetComponent<SpriteRenderer>().sprite = GameManager.Settings.PieceSprites[(int)_type];
+#endif
         }
     }    
 

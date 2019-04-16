@@ -23,4 +23,8 @@ public class GameSettings : ScriptableObject
     public float TimeToReachMagnet;
     public ClumpShape ClumpShape;
     public DG.Tweening.Ease ClumpTweeningType;
+
+    [Header("Pieces")]
+    [Tooltip("Sprites 0-4 are basic pieces. 5 is the laser. 6 is the magnet.")]
+    public Sprite[] PieceSprites;
 }

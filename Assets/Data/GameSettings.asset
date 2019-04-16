@@ -22,3 +22,11 @@ MonoBehaviour:
   TimeToReachMagnet: 2.5
   ClumpShape: 0
   ClumpTweeningType: 14
+  PieceSprites:
+  - {fileID: 21300000, guid: 9c2a380c1bc762042b0b0e1f9419fe40, type: 3}
+  - {fileID: 21300000, guid: 05e883eec2b66084e88d93c915cad9f3, type: 3}
+  - {fileID: 21300000, guid: 0f2864e751242674884b26fbca264aec, type: 3}
+  - {fileID: 21300000, guid: 862e2ca93f3854746b8f8ea969f3b970, type: 3}
+  - {fileID: 21300000, guid: f5b553a6e973f7e4fb1d8754f3763ddc, type: 3}
+  - {fileID: 21300000, guid: f72d30d30a5867946bcf044645ab3d3f, type: 3}
+  - {fileID: 21300000, guid: 2e142901e2ca4ad478e8fd25289911f9, type: 3}
