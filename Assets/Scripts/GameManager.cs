@@ -23,5 +23,12 @@ public class GameManager : Singleton<GameManager>
         base.Awake();
         Grid = Instance.Grid;
         GameSettings = Instance.GameSettings;
+
+        SetPause(true);
+    }
+
+    public void SetPause(bool pause)
+    {
+        Time.timeScale = pause ? 0 : 1;
     }
 }
