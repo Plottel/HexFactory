@@ -32,6 +32,9 @@ public class HexController : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.IsPaused)
+            return;
+
 #if UNITY_EDITOR
         if (Input.GetKey(KeyCode.A))
             _gridPivot.Rotate(0, 0, TurnSpeed);

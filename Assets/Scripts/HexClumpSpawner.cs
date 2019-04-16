@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class HexClumpSpawner : MonoBehaviour
 {
@@ -60,9 +59,6 @@ public class HexClumpSpawner : MonoBehaviour
         var hexPiece = collision.GetComponent<HexPiece>();
 
         if (hexPiece != null && hexPiece.clump == null) // Piece is attached to the magnet
-        {
-            Debug.LogError("Game Over");
-            SceneManager.LoadScene("Game", LoadSceneMode.Single);
-        }
+            GameManager.Instance.OnGameOver();
     }
 }
